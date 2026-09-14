@@ -33,7 +33,7 @@ export default async function HadithPage() {
                 <span>{category.hadeeths_count} حديثًا</span>
                 <h2>{category.title}</h2>
                 <p>استكشف الأحاديث الموثقة في هذا الموضوع.</p>
-                <Link href={\`/hadith/category/\${category.id}\`}>استكشف الأحاديث ←</Link>
+                <Link href={`/hadith/category/${category.id}`}>استكشف الأحاديث ←</Link>
               </article>
             ))}
           </section>
