@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { officialProviders } from "@/src/lib/content-source";
+import { officialProviders } from "../../../src/lib/content-source";
 
 export const revalidate = 3600;
 
