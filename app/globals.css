@@ -92,3 +92,12 @@ footer p { color:var(--muted); font-size:10px; max-width:550px; line-height:1.8;
 .verse details { margin-top:14px; font-size:11px; color:var(--muted); }
 .verse summary { color:var(--emerald); cursor:pointer; font-weight:700; }
 .verse details p { line-height:1.8; }
+
+.category-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:13px; margin-bottom:28px; }
+.category-grid article { background:var(--paper); border:1px solid #e7e5dc; border-radius:16px; padding:21px; min-height:175px; display:flex; flex-direction:column; }
+.category-grid span { color:var(--gold); font-size:10px; }
+.category-grid h2 { font-size:16px; margin:13px 0 8px; }
+.category-grid p { color:var(--muted); font-size:11px; line-height:1.8; flex:1; }
+.category-grid button { border:0; background:transparent; text-align:right; padding:0; color:#8b958f; font:700 11px "Noto Kufi Arabic",sans-serif; }
+@media (max-width:700px) { .category-grid { grid-template-columns:1fr 1fr; } }
+@media (max-width:440px) { .category-grid { grid-template-columns:1fr; } }
