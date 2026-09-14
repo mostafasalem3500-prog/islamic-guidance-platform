@@ -125,3 +125,12 @@ footer p { color:var(--muted); font-size:10px; max-width:550px; line-height:1.8;
 .share-preview h2 { font-size:20px; margin:9px 0 6px; }
 .share-preview p { color:var(--muted); font-size:11px; margin:0 0 13px; }
 .share-preview code { display:block; overflow:auto; direction:ltr; text-align:left; color:#496259; background:#ffffff9c; padding:9px; border-radius:7px; font:10px "DM Sans",sans-serif; }
+
+.library-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:13px; }
+.library-grid article { min-height:200px; background:var(--paper); border:1px solid #e7e5dc; border-radius:16px; padding:21px; display:flex; flex-direction:column; }
+.library-grid span { color:var(--gold); font:600 10px "DM Sans",sans-serif; }
+.library-grid h2 { font-size:15px; line-height:1.8; margin:12px 0 9px; }
+.library-grid p { color:var(--muted); font-size:10px; line-height:1.9; flex:1; }
+.library-grid a { color:var(--emerald); font-size:11px; font-weight:700; }
+@media (max-width:700px) { .library-grid { grid-template-columns:1fr 1fr; } }
+@media (max-width:440px) { .library-grid { grid-template-columns:1fr; } }
