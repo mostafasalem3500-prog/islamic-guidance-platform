@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { sourceRecord } from "@/src/lib/content-source";
+import { sourceRecord } from "../../src/lib/content-source";
 
 const steps = [
   ["١", "اختر اللغة", "لا تظهر إلا الترجمات المتاحة فعليًا من المصدر."],
