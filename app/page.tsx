@@ -19,7 +19,7 @@ export default function Home() {
         <div className="nav-links">
           <a href="#journeys">الرحلات</a>
           <a href="#sources">المصادر</a>
-          <a href="#dawah">للدعاة</a>
+          <a href="/dawah">للدعاة</a>
           <button className="lang" type="button">English</button>
         </div>
       </nav>
@@ -47,7 +47,7 @@ export default function Home() {
               <span className="journey-icon">{journey.icon}</span>
               <h3>{journey.title}</h3>
               <p>{journey.text}</p>
-              <a href={journey.title === "أتعرّف إلى الإسلام" ? "/new-muslim" : journey.title === "لدي سؤال" ? "/hadith" : journey.title === "أنا مسلم جديد" ? "/new-muslim" : "#dawah"}>{journey.action} ←</a>
+              <a href={journey.title === "أتعرّف إلى الإسلام" ? "/new-muslim" : journey.title === "لدي سؤال" ? "/hadith" : journey.title === "أنا مسلم جديد" ? "/new-muslim" : "/dawah"}>{journey.action} ←</a>
             </article>
           ))}
         </div>
@@ -89,7 +89,7 @@ export default function Home() {
         <p className="eyebrow">للجهات والدعاة</p>
         <h2>شارك الخير بثقة، لا بروابط مشتتة.</h2>
         <p>أنشئ صفحة دعوية قصيرة بلغة المتلقي، تجمع مواد موثقة، رابطًا قابلًا للمشاركة، ورمز QR.</p>
-        <a className="button primary" href="#top">استكشف مركز الداعية <b>←</b></a>
+        <a className="button primary" href="/dawah">استكشف مركز الداعية <b>←</b></a>
       </section>
 
       <footer>
