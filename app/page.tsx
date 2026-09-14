@@ -5,6 +5,12 @@ const journeys = [
   { icon: "↗", title: "أنا داعية", text: "أنشئ صفحة مشاركة موثقة بلغات متعددة ورمز QR.", action: "مركز الداعية" },
 ];
 
+const trustMetrics = [
+  { value: "3", label: "مصادر محتوى رسمية" },
+  { value: "147", label: "لغة معتمدة في الدليل" },
+  { value: "0", label: "نصوص تُعدّل أو تُنسب خطأً" },
+];
+
 const sources = [
   { name: "القرآن الكريم", source: "QuranEnc", detail: "ترجمات معاني القرآن وإصدار الترجمة" },
   { name: "الحديث النبوي", source: "HadeethEnc", detail: "النص والترجمة والشرح الموثق" },
@@ -25,14 +31,27 @@ export default function Home() {
       </nav>
 
       <section className="hero" id="top">
-        <p className="eyebrow">معرفة موثقة · بلغة يفهمها القلب</p>
-        <h1>طريقك إلى الإسلام<br /><em>يبدأ بخطوة واضحة.</em></h1>
-        <p className="hero-copy">بلّغ منصة متعددة اللغات تساعد الباحث عن الحقيقة، والمسلم الجديد، والداعية على الوصول إلى محتوى إسلامي موثّق ومناسب لرحلته.</p>
-        <div className="hero-actions">
-          <a className="button primary" href="#journeys">ابدأ من هنا <b>←</b></a>
-          <a className="button quiet" href="/quran">استكشف القرآن</a>
+        <div className="hero-copy-wrap">
+          <p className="eyebrow">معرفة موثقة · بلغة يفهمها القلب</p>
+          <h1>طريقك إلى الإسلام<br /><em>يبدأ بخطوة واضحة.</em></h1>
+          <p className="hero-copy">بلّغ منصة متعددة اللغات تساعد الباحث عن الحقيقة، والمسلم الجديد، والداعية على الوصول إلى محتوى إسلامي موثّق ومناسب لرحلته.</p>
+          <div className="hero-actions">
+            <a className="button primary" href="#journeys">ابدأ من هنا <b>←</b></a>
+            <a className="button quiet" href="/quran">استكشف القرآن</a>
+          </div>
+          <div className="trust-line"><span>✓</span> النصوص الأصلية لا تُعدَّل · المصدر والإصدار ظاهران دائمًا</div>
         </div>
-        <div className="trust-line"><span>✓</span> النصوص الأصلية لا تُعدَّل · المصدر والإصدار ظاهران دائمًا</div>
+        <aside className="hero-compass" aria-label="رحلة بلّغ">
+          <div className="compass-ring"><span>بلّغ</span></div>
+          <div className="compass-card card-quran"><b>القرآن</b><small>ترجمات بإصدارها</small></div>
+          <div className="compass-card card-hadith"><b>الحديث</b><small>شرح موثّق</small></div>
+          <div className="compass-card card-library"><b>المكتبة</b><small>معرفة أوسع</small></div>
+        </aside>
+      </section>
+
+      <section className="trust-grid" aria-label="منهج بلّغ">
+        {trustMetrics.map((metric) => <div key={metric.label}><strong>{metric.value}</strong><span>{metric.label}</span></div>)}
+        <a href="#sources">منهج التوثيق ←</a>
       </section>
 
       <section className="journeys section" id="journeys">
