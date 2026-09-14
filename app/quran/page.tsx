@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getQuranSurah, getQuranTranslations } from "../../src/lib/quran-enc";
+import { getQuranSurah, getQuranTranslations, type QuranSurahResponse } from "../../src/lib/quran-enc";
 
 export const dynamic = "force-dynamic";
 
@@ -15,20 +15,30 @@ export default async function QuranPage({ searchParams }: { searchParams: Promis
   const requested = (await searchParams).language ?? "en";
   const activeLanguage = languages.find((language) => language.code === requested) ?? languages[0];
 
-  let translationKey = activeLanguage.defaultKey;
-  let version: string | undefined;
+  let data: QuranSurahResponse | null = null;
   let translationTitle = activeLanguage.label;
 
   try {
     const translations = await getQuranTranslations(activeLanguage.code, activeLanguage.code);
-    const selected = translations.find((translation) => translation.key === translationKey) ?? translations[0];
+    const selected = translations.find((translation) => translation.key === activeLanguage.defaultKey) ?? translations[0];
     if (!selected) throw new Error("No translation available.");
-    translationKey = selected.key;
-    version = selected.version;
     translationTitle = selected.title;
-    const data = await getQuranSurah(translationKey, 1, version);
+    data = await getQuranSurah(selected.key, 1, selected.version);
+  } catch {
+    data = null;
+  }
 
+  if (!data) {
     return (
+      <main className="content-page">
+        <header className="page-nav"><Link href="/">← بلّغ</Link><span>القرآن الكريم</span></header>
+        <section className="page-hero compact-hero"><p className="eyebrow">الترجمة والمعنى</p><h1>المصدر مؤقتًا<br /><em>غير متاح.</em></h1></section>
+        <aside className="source-proof"><div><span className="proof-label">حماية التوثيق</span><h2>تعذر جلب الترجمة المطلوبة.</h2><p>لم نعرض بديلًا غير موثق. جرّب لغة أخرى أو عُد لاحقًا.</p></div><a href="https://quranenc.com/" target="_blank" rel="noreferrer">زيارة QuranEnc ↗</a></aside>
+      </main>
+    );
+  }
+
+  return (
       <main className="content-page">
         <header className="page-nav"><Link href="/">← بلّغ</Link><span>القرآن الكريم</span></header>
         <section className="page-hero compact-hero">
@@ -61,14 +71,5 @@ export default async function QuranPage({ searchParams }: { searchParams: Promis
           <a href="https://quranenc.com/en/home/api" target="_blank" rel="noreferrer">توثيق API ↗</a>
         </aside>
       </main>
-    );
-  } catch {
-    return (
-      <main className="content-page">
-        <header className="page-nav"><Link href="/">← بلّغ</Link><span>القرآن الكريم</span></header>
-        <section className="page-hero compact-hero"><p className="eyebrow">الترجمة والمعنى</p><h1>المصدر مؤقتًا<br /><em>غير متاح.</em></h1></section>
-        <aside className="source-proof"><div><span className="proof-label">حماية التوثيق</span><h2>تعذر جلب الترجمة المطلوبة.</h2><p>لم نعرض بديلًا غير موثق. جرّب لغة أخرى أو عُد لاحقًا.</p></div><a href="https://quranenc.com/" target="_blank" rel="noreferrer">زيارة QuranEnc ↗</a></aside>
-      </main>
-    );
-  }
+  );
 }

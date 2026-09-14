@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const destinations = [
   { value: "quran", label: "القرآن الكريم", href: "/quran", source: "QuranEnc.com" },
@@ -12,15 +12,10 @@ const destinations = [
 
 export default function DawahPage() {
   const [destination, setDestination] = useState(destinations[0].value);
-  const [origin, setOrigin] = useState("");
   const selected = destinations.find((item) => item.value === destination) ?? destinations[0];
-  const shareLink = origin + selected.href;
-
-  useEffect(() => {
-    setOrigin(window.location.origin);
-  }, []);
 
   async function copyLink() {
+    const shareLink = new URL(selected.href, window.location.origin).toString();
     await navigator.clipboard.writeText(shareLink);
     window.alert("تم نسخ الرابط للمشاركة.");
   }
@@ -42,7 +37,7 @@ export default function DawahPage() {
           <span>المحتوى المختار</span>
           <h2>{selected.label}</h2>
           <p>المصدر: {selected.source}</p>
-          <code>{shareLink}</code>
+          <code>{selected.href}</code>
         </div>
         <button className="button primary" type="button" onClick={copyLink}>نسخ رابط المشاركة <b>←</b></button>
       </section>

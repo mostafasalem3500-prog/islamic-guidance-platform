@@ -31,6 +31,17 @@ function isLanguage(value: string) {
   return /^[a-z]{2,3}$/i.test(value);
 }
 
+function isHadithDetails(value: unknown): value is HadithDetails {
+  return Boolean(
+    value
+      && typeof value === "object"
+      && "id" in value
+      && typeof value.id === "string"
+      && "hadeeth" in value
+      && typeof value.hadeeth === "string",
+  );
+}
+
 export async function getHadithRootCategories(language = "ar"): Promise<HadithSourceResponse<HadithCategory[]>> {
   if (!isLanguage(language)) throw new Error("Invalid HadeethEnc language.");
 
@@ -56,8 +67,8 @@ export async function getHadith(id: string, language = "ar"): Promise<HadithSour
   if (!response.ok) throw new Error("HadeethEnc source is currently unavailable.");
 
   const payload = (await response.json()) as HadithDetails | { data?: HadithDetails };
-  const hadith = "data" in payload && payload.data ? payload.data : payload;
-  if (!hadith.id || !hadith.hadeeth) throw new Error("Unexpected HadeethEnc response.");
+  const hadith: unknown = "data" in payload && payload.data ? payload.data : payload;
+  if (!isHadithDetails(hadith)) throw new Error("Unexpected HadeethEnc response.");
 
   return { data: hadith, source: sourceRecord("HADEETH_ENC") };
 }
