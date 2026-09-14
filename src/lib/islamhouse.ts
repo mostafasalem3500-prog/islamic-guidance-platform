@@ -21,6 +21,10 @@ export type IslamHouseResponse<T> = {
   source: SourceRecord;
 };
 
+export type IslamHouseCategory = { id: number; source_id?: number; title: string; shortdescription?: string | null; datatype?: string; apiurl: string };
+export type IslamHouseCategoryItem = { id: number; title: string; datatype: string; slang?: string; importance_level?: string; apiurl: string };
+export type IslamHouseItemDetails = IslamHouseItem & { description?: string; type?: string; prepared_by?: Array<{ title?: string }>; attachments?: Array<{ url?: string; extension_type?: string; description?: string }> };
+
 function key() {
   return process.env.ISLAMHOUSE_API_KEY || PUBLIC_KEY;
 }
@@ -53,6 +57,26 @@ export async function getIslamHouseItems(type = "books", flang = "ar", slang = "
   const items = Array.isArray(output) ? output : output.data;
   if (!Array.isArray(items)) throw new Error("Unexpected IslamHouse items response.");
   return { data: items, source: sourceRecord("ISLAM_HOUSE") };
+}
+
+export async function getIslamHouseCategories(flang = "ar"): Promise<IslamHouseResponse<IslamHouseCategory[]>> {
+  const output = await request<IslamHouseCategory[]>(`categories/showall/${language(flang)}/json`);
+  if (!Array.isArray(output)) throw new Error("Unexpected IslamHouse categories response.");
+  return { data: output, source: sourceRecord("ISLAM_HOUSE") };
+}
+
+export async function getIslamHouseCategoryItems(categoryId: string, flang = "ar"): Promise<IslamHouseResponse<IslamHouseCategoryItem[]>> {
+  if (!/^\d+$/.test(categoryId)) throw new Error("Invalid IslamHouse category.");
+  const output = await request<IslamHouseCategoryItem[]>(`categories/viewitems/${categoryId}/showall/${language(flang)}/showall/json`);
+  if (!Array.isArray(output)) throw new Error("Unexpected IslamHouse category items response.");
+  return { data: output, source: sourceRecord("ISLAM_HOUSE") };
+}
+
+export async function getIslamHouseItem(id: string, flang = "ar"): Promise<IslamHouseResponse<IslamHouseItemDetails>> {
+  if (!/^\d+$/.test(id)) throw new Error("Invalid IslamHouse item.");
+  const output = await request<IslamHouseItemDetails>(`main/get-item/${id}/${language(flang)}/json`);
+  if (!output || typeof output !== "object") throw new Error("Unexpected IslamHouse item response.");
+  return { data: output, source: sourceRecord("ISLAM_HOUSE") };
 }
 
 export const islamHouseConfig = {

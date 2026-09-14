@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getIslamHouseItems, getIslamHouseSections } from "../../src/lib/islamhouse";
+import { getIslamHouseCategories, getIslamHouseItems, getIslamHouseSections } from "../../src/lib/islamhouse";
 
 export const dynamic = "force-dynamic";
 
@@ -11,14 +11,17 @@ function itemTitle(item: Record<string, unknown>) {
 export default async function LibraryPage() {
   let sections: Awaited<ReturnType<typeof getIslamHouseSections>> | null = null;
   let books: Awaited<ReturnType<typeof getIslamHouseItems>> | null = null;
+  let categories: Awaited<ReturnType<typeof getIslamHouseCategories>> | null = null;
   try {
-    [sections, books] = await Promise.all([
+    [sections, books, categories] = await Promise.all([
       getIslamHouseSections("ar", "ar"),
       getIslamHouseItems("books", "ar", "ar", 1, 12),
+      getIslamHouseCategories("ar"),
     ]);
   } catch {
     sections = null;
     books = null;
+    categories = null;
   }
 
   return (
@@ -30,7 +33,7 @@ export default async function LibraryPage() {
         <p>هذه المواد تُجلب مباشرة من المصدر الرسمي، مع إبقاء رابط المصدر وبياناته متاحة عند فتح كل مادة.</p>
       </section>
 
-      {sections && books ? (
+      {sections && books && categories ? (
         <>
           <div className="source-bar">
             <span>المصدر: <a href={books.source.officialUrl} target="_blank" rel="noreferrer">{books.source.attribution}</a></span>
@@ -42,13 +45,16 @@ export default async function LibraryPage() {
               <span key={section.block_name}>{section.block_name} · {section.items_count.toLocaleString("ar-SA")}</span>
             ))}
           </section>
+          <section className="library-types" aria-label="التصنيفات العلمية">
+            {categories.data.slice(1, 25).map((category) => <Link key={category.id} href={`/library/category/${category.id}`}>{category.title}</Link>)}
+          </section>
           <section className="library-grid" aria-label="كتب من إسلام هاوس">
             {books.data.map((book, index) => (
               <article key={String(book.id ?? index)}>
                 <span>IslamHouse</span>
                 <h2>{itemTitle(book) ?? "مادة من المكتبة الإسلامية"}</h2>
                 <p>المادة محفوظة في المصدر الرسمي. ستضاف صفحة التفاصيل وبيانات المؤلف والملفات في المرحلة التالية.</p>
-                <a href={books.source.officialUrl} target="_blank" rel="noreferrer">عرض المصدر الرسمي ↗</a>
+                {book.id ? <Link href={`/library/item/${book.id}`}>عرض المادة والملف ↗</Link> : <a href={books.source.officialUrl} target="_blank" rel="noreferrer">عرض المصدر الرسمي ↗</a>}
               </article>
             ))}
           </section>
