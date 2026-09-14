@@ -5,9 +5,8 @@ export async function GET() {
   const status = islamHouseStatus();
   return NextResponse.json({
     ...status,
-    configured: status.configured,
-    message: status.configured
-      ? "IslamHouse connection is configured."
-      : "Add ISLAMHOUSE_API_KEY to enable the official library sync.",
+    message: status.usingEnvironmentKey
+      ? "IslamHouse connection uses the configured environment key."
+      : "IslamHouse connection uses the official public API key.",
   });
 }
