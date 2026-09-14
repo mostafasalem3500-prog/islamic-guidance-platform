@@ -39,8 +39,8 @@ export async function getHadithRootCategories(language = "ar"): Promise<HadithSo
   });
   if (!response.ok) throw new Error("HadeethEnc source is currently unavailable.");
 
-  const payload = (await response.json()) as HadithCategory[] | { data?: HadithCategory[] };
-  const categories = Array.isArray(payload) ? payload : payload.data;
+  const payload = (await response.json()) as HadithCategory[] | { data?: HadithCategory[]; result?: HadithCategory[] };
+  const categories = Array.isArray(payload) ? payload : (payload.data ?? payload.result);
   if (!Array.isArray(categories)) throw new Error("Unexpected HadeethEnc response.");
 
   return { data: categories, source: sourceRecord("HADEETH_ENC") };
