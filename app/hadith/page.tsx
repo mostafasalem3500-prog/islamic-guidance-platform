@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { sourceRecord } from "@/src/lib/content-source";
+import { sourceRecord } from "../../src/lib/content-source";
 
 export default function HadithPage() {
   const source = sourceRecord("HADEETH_ENC");
