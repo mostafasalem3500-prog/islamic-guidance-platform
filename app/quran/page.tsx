@@ -20,14 +20,12 @@ export default async function QuranPage({ searchParams }: { searchParams: Promis
   let translationTitle = activeLanguage.label;
 
   try {
-    if (!translationKey) {
-      const translations = await getQuranTranslations(activeLanguage.code, activeLanguage.code);
-      const selected = translations[0];
-      if (!selected) throw new Error("No translation available.");
-      translationKey = selected.key;
-      version = selected.version;
-      translationTitle = selected.title;
-    }
+    const translations = await getQuranTranslations(activeLanguage.code, activeLanguage.code);
+    const selected = translations.find((translation) => translation.key === translationKey) ?? translations[0];
+    if (!selected) throw new Error("No translation available.");
+    translationKey = selected.key;
+    version = selected.version;
+    translationTitle = selected.title;
     const data = await getQuranSurah(translationKey, 1, version);
 
     return (
