@@ -23,6 +23,7 @@ export default function Home() {
       <nav className="nav">
         <a className="brand" href="#top"><span>ب</span> بلّغ</a>
         <div className="nav-links">
+          <a href="/research">مساعد البحث</a>
           <a href="#journeys">الرحلات</a>
           <a href="#sources">المصادر</a>
           <a href="/dawah">للدعاة</a>
@@ -109,6 +110,13 @@ export default function Home() {
         <h2>شارك الخير بثقة، لا بروابط مشتتة.</h2>
         <p>أنشئ صفحة دعوية قصيرة بلغة المتلقي، تجمع مواد موثقة، رابطًا قابلًا للمشاركة، ورمز QR.</p>
         <a className="button primary" href="/dawah">استكشف مركز الداعية <b>←</b></a>
+      </section>
+
+      <section className="research-cta section">
+        <p className="eyebrow">مساعد البحث الموثّق</p>
+        <h2>موضوع واحد، وخطة بحث تناسب رحلتك.</h2>
+        <p>للباحث عن الإسلام، والمسلم الجديد، وكل من يريد الوصول إلى المصدر قبل أي شرح.</p>
+        <a className="button quiet" href="/research">ابدأ البحث المنظّم ←</a>
       </section>
 
       <footer>
