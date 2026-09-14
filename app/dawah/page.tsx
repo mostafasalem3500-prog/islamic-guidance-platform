@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 const destinations = [
   { value: "quran", label: "القرآن الكريم", href: "/quran", source: "QuranEnc.com" },
@@ -12,11 +12,13 @@ const destinations = [
 
 export default function DawahPage() {
   const [destination, setDestination] = useState(destinations[0].value);
+  const [origin, setOrigin] = useState("");
   const selected = destinations.find((item) => item.value === destination) ?? destinations[0];
-  const shareLink = useMemo(() => {
-    if (typeof window === "undefined") return selected.href;
-    return new URL(selected.href, window.location.origin).toString();
-  }, [selected.href]);
+  const shareLink = origin + selected.href;
+
+  useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
 
   async function copyLink() {
     await navigator.clipboard.writeText(shareLink);
