@@ -107,3 +107,10 @@ footer p { color:var(--muted); font-size:10px; max-width:550px; line-height:1.8;
 .hadith-list article { min-height:150px; border:1px solid #e7e5dc; border-radius:16px; background:var(--paper); padding:21px; display:flex; flex-direction:column; }
 .hadith-list span { color:var(--gold); font-size:10px; }
 .hadith-list h2 { font-size:15px; line-height:1.75; margin:12px 0; flex:1; }
+
+.hadith-detail { background:var(--paper); border:1px solid #e7e5dc; border-radius:18px; padding:30px; margin-bottom:28px; }
+.hadith-text { font-size:21px; line-height:2.2; margin:0 0 27px; }
+.hadith-detail section { border-top:1px solid var(--line); padding-top:20px; margin-top:20px; }
+.hadith-detail h2 { font-size:17px; margin-bottom:9px; }
+.hadith-detail section p,.hadith-detail li { color:var(--muted); font-size:13px; line-height:2; }
+.hadith-detail ul { margin:0; padding-right:20px; }
