@@ -53,3 +53,30 @@ footer { max-width:1180px; margin:auto; border-top:1px solid var(--line); paddin
 footer p { color:var(--muted); font-size:10px; max-width:550px; line-height:1.8; margin:0; }
 @media (max-width:800px) { .nav-links a { display:none; } .hero { padding-top:90px; min-height:auto; } .journey-grid,.source-list { grid-template-columns:1fr 1fr; } .path { grid-template-columns:1fr; gap:30px; } }
 @media (max-width:520px) { .journey-grid,.source-list { grid-template-columns:1fr; } .nav { padding:0 18px; } .section,.hero { padding-right:18px; padding-left:18px; } h1 { font-size:37px; } footer { align-items:flex-start; flex-direction:column; } }
+
+.content-page { max-width:1100px; margin:auto; padding:0 28px 100px; }
+.page-nav { height:86px; display:flex; align-items:center; justify-content:space-between; color:var(--muted); font-size:12px; border-bottom:1px solid var(--line); }
+.page-nav a { color:var(--emerald); font-weight:700; }
+.page-hero { padding:100px 0 60px; max-width:700px; }
+.page-hero h1 { font-size:clamp(38px,5vw,67px); }
+.page-hero > p:last-child { color:var(--muted); line-height:2.05; font-size:15px; }
+.feature-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; margin:0 0 60px; }
+.feature-steps article { padding:24px; background:var(--paper); border:1px solid #e7e5dc; border-radius:16px; }
+.feature-steps b { color:var(--gold); font:600 13px "DM Sans"; }
+.feature-steps h2 { font-size:18px; margin:20px 0 9px; }
+.feature-steps p,.hadith-focus p,.plan > div > p:last-child { color:var(--muted); font-size:12px; line-height:2; }
+.source-proof { border-radius:20px; background:var(--ink); color:white; padding:30px; display:flex; justify-content:space-between; align-items:end; gap:24px; }
+.source-proof h2 { font-size:22px; margin:8px 0; }
+.source-proof p { font-size:12px; color:#c9d6d0; line-height:1.8; margin:0; }
+.proof-label { color:#c9dcae; font-size:10px; font-weight:700; }
+.source-proof a { padding:11px 15px; flex:none; border:1px solid #ffffff33; border-radius:10px; font-size:11px; }
+.hadith-focus { padding:30px; border-radius:18px; background:#edf4eb; margin-bottom:55px; }
+.hadith-focus div { display:flex; gap:9px; flex-wrap:wrap; }
+.hadith-focus span { background:white; border-radius:99px; padding:9px 14px; color:var(--emerald); font-size:12px; }
+.plan { display:grid; grid-template-columns:.8fr 1.2fr; gap:65px; padding:45px 0; }
+.plan ol { list-style:none; padding:0; margin:0; }
+.plan li { display:grid; grid-template-columns:70px 1fr 20px; align-items:center; gap:15px; border-bottom:1px solid var(--line); padding:17px 0; }
+.plan li > b { color:var(--gold); font:600 12px "DM Sans"; }
+.plan h3 { font-size:15px; margin:0 0 5px; }
+.plan li p { color:var(--muted); margin:0; font-size:11px; }
+@media (max-width:700px) { .content-page{padding-right:18px;padding-left:18px}.feature-steps,.plan{grid-template-columns:1fr}.source-proof{align-items:flex-start;flex-direction:column}.page-hero{padding-top:65px}.plan{gap:20px} }
