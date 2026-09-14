@@ -21,7 +21,7 @@ function validPositive(value: string | number, max: number) {
   return Number.isInteger(parsed) && parsed >= 1 && parsed <= max;
 }
 
-export async function getQuranSurah(translationKey = "english_saheeh", surah = 1): Promise<QuranSurahResponse> {
+export async function getQuranSurah(translationKey = "english_saheeh", surah = 1, version?: string): Promise<QuranSurahResponse> {
   if (!/^[a-z0-9_]+$/i.test(translationKey) || !validPositive(surah, 114)) {
     throw new Error("Invalid Quran translation or surah request.");
   }
@@ -38,7 +38,7 @@ export async function getQuranSurah(translationKey = "english_saheeh", surah = 1
 
   return {
     verses: payload.result,
-    source: { ...sourceRecord("QURAN_ENC"), translationKey },
+    source: { ...sourceRecord("QURAN_ENC", version), translationKey },
   };
 }
 
