@@ -61,3 +61,31 @@ export async function getHadith(id: string, language = "ar"): Promise<HadithSour
 
   return { data: hadith, source: sourceRecord("HADEETH_ENC") };
 }
+
+
+export type HadithListItem = {
+  id: string;
+  title: string;
+  translations: string[];
+};
+
+export async function getHadithsByCategory(categoryId: string, language = "ar", page = 1, perPage = 20): Promise<HadithSourceResponse<HadithListItem[]>> {
+  if (!/^\d+$/.test(categoryId) || !isLanguage(language) || !Number.isInteger(page) || page < 1 || page > 100 || !Number.isInteger(perPage) || perPage < 1 || perPage > 30) {
+    throw new Error("Invalid HadeethEnc list request.");
+  }
+
+  const url = new URL(`${API}/hadeeths/list/`);
+  url.searchParams.set("language", language);
+  url.searchParams.set("category_id", categoryId);
+  url.searchParams.set("page", String(page));
+  url.searchParams.set("per_page", String(perPage));
+
+  const response = await fetch(url, { next: { revalidate: 86400 } });
+  if (!response.ok) throw new Error("HadeethEnc source is currently unavailable.");
+
+  const payload = (await response.json()) as { data?: HadithListItem[] } | HadithListItem[];
+  const list = Array.isArray(payload) ? payload : payload.data;
+  if (!Array.isArray(list)) throw new Error("Unexpected HadeethEnc response.");
+
+  return { data: list, source: sourceRecord("HADEETH_ENC") };
+}
