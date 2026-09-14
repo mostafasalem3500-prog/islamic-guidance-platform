@@ -52,3 +52,10 @@ GET https://quranenc.com/api/v1/translation/sura/{translation_key}/{sura_number}
 
 - `GET /api/sources` — قائمة المصادر المعتمدة وإرشادات النسبة.
 - `GET /api/quran/surah?translation=english_saheeh&surah=1` — سورة مترجمة مع بطاقة مصدر موحّدة.
+
+
+### مكتبة IslamHouse ومركز الداعية
+
+- `/library` تعرض حالة تهيئة اتصال IslamHouse وتتجنب إظهار مواد غير موثقة قبل نجاح الربط.
+- أضف `ISLAMHOUSE_API_KEY` في بيئة النشر لتفعيل مزامنة المكتبة عبر API v3.
+- `/dawah` ينشئ رابط مشاركة لصفحات المنصة مع إظهار مصدر الوجهة.
