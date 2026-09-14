@@ -56,6 +56,6 @@ GET https://quranenc.com/api/v1/translation/sura/{translation_key}/{sura_number}
 
 ### مكتبة IslamHouse ومركز الداعية
 
-- `/library` تعرض حالة تهيئة اتصال IslamHouse وتتجنب إظهار مواد غير موثقة قبل نجاح الربط.
-- أضف `ISLAMHOUSE_API_KEY` في بيئة النشر لتفعيل مزامنة المكتبة عبر API v3.
+- `/library` تجلب فهرس الأنواع وأول مجموعة كتب مباشرة من IslamHouse API v3.
+- يستخدم المشروع المفتاح العام الموثق من المصدر، ويمكن استبداله اختياريًا بـ `ISLAMHOUSE_API_KEY` في بيئة النشر.
 - `/dawah` ينشئ رابط مشاركة لصفحات المنصة مع إظهار مصدر الوجهة.
