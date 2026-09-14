@@ -101,3 +101,9 @@ footer p { color:var(--muted); font-size:10px; max-width:550px; line-height:1.8;
 .category-grid button { border:0; background:transparent; text-align:right; padding:0; color:#8b958f; font:700 11px "Noto Kufi Arabic",sans-serif; }
 @media (max-width:700px) { .category-grid { grid-template-columns:1fr 1fr; } }
 @media (max-width:440px) { .category-grid { grid-template-columns:1fr; } }
+
+.category-grid a,.hadith-list a { color:var(--emerald); font-size:11px; font-weight:700; }
+.hadith-list { display:grid; grid-template-columns:repeat(2,1fr); gap:13px; }
+.hadith-list article { min-height:150px; border:1px solid #e7e5dc; border-radius:16px; background:var(--paper); padding:21px; display:flex; flex-direction:column; }
+.hadith-list span { color:var(--gold); font-size:10px; }
+.hadith-list h2 { font-size:15px; line-height:1.75; margin:12px 0; flex:1; }
