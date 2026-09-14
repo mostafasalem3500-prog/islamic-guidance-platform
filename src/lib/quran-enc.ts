@@ -41,3 +41,29 @@ export async function getQuranSurah(translationKey = "english_saheeh", surah = 1
     source: { ...sourceRecord("QURAN_ENC"), translationKey },
   };
 }
+
+
+export type QuranTranslation = {
+  key: string;
+  language_iso_code: string;
+  version: string;
+  last_update: string;
+  title: string;
+  description: string;
+};
+
+export async function getQuranTranslations(language: string, localization = "en"): Promise<QuranTranslation[]> {
+  if (!/^[a-z]{2,3}$/i.test(language) || !/^[a-z]{2,3}$/i.test(localization)) {
+    throw new Error("Invalid QuranEnc language request.");
+  }
+
+  const url = new URL(`${API}/translations/list/${encodeURIComponent(language)}`);
+  url.searchParams.set("localization", localization);
+  const response = await fetch(url, { next: { revalidate: 86400 } });
+  if (!response.ok) throw new Error("QuranEnc translations are currently unavailable.");
+
+  const payload = (await response.json()) as QuranTranslation[] | { result?: QuranTranslation[]; data?: QuranTranslation[] };
+  const translations = Array.isArray(payload) ? payload : (payload.result ?? payload.data);
+  if (!Array.isArray(translations)) throw new Error("Unexpected QuranEnc translations response.");
+  return translations;
+}
