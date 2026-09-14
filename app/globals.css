@@ -80,3 +80,15 @@ footer p { color:var(--muted); font-size:10px; max-width:550px; line-height:1.8;
 .plan h3 { font-size:15px; margin:0 0 5px; }
 .plan li p { color:var(--muted); margin:0; font-size:11px; }
 @media (max-width:700px) { .content-page{padding-right:18px;padding-left:18px}.feature-steps,.plan{grid-template-columns:1fr}.source-proof{align-items:flex-start;flex-direction:column}.page-hero{padding-top:65px}.plan{gap:20px} }
+
+.compact-hero { padding-bottom:35px; }
+.source-bar { display:flex; flex-wrap:wrap; gap:10px 22px; padding:13px 15px; background:#edf4eb; color:#526158; border-radius:12px; font-size:10px; margin-bottom:18px; }
+.source-bar a { color:var(--emerald); font-weight:700; }
+.verse-list { display:grid; gap:12px; margin-bottom:28px; }
+.verse { position:relative; padding:24px 28px; background:var(--paper); border:1px solid #e7e5dc; border-radius:16px; }
+.verse-number { display:grid; place-items:center; position:absolute; inset-inline-start:15px; top:16px; width:23px; height:23px; border-radius:50%; background:var(--mint); color:var(--emerald); font:600 10px "DM Sans"; }
+.arabic-verse { font-family:serif; font-size:26px; line-height:2; padding-inline:20px; margin:0 0 16px; }
+.translation-verse { color:#39443e; line-height:1.95; font:400 14px "DM Sans",sans-serif; margin:0; }
+.verse details { margin-top:14px; font-size:11px; color:var(--muted); }
+.verse summary { color:var(--emerald); cursor:pointer; font-weight:700; }
+.verse details p { line-height:1.8; }
