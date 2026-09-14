@@ -1,29 +1,64 @@
 import Link from "next/link";
-import { islamHouseStatus } from "../../src/lib/islamhouse";
+import { getIslamHouseItems, getIslamHouseSections } from "../../src/lib/islamhouse";
 
-const formats = ["كتب", "مقالات", "فتاوى", "صوتيات", "فيديو", "ملفات مرفقة"];
+export const dynamic = "force-dynamic";
 
-export default function LibraryPage() {
-  const status = islamHouseStatus();
+function itemTitle(item: Record<string, unknown>) {
+  const candidates = [item.title, item.name, item.item_title, item.description];
+  return candidates.find((value) => typeof value === "string" && value.trim()) as string | undefined;
+}
+
+export default async function LibraryPage() {
+  let sections: Awaited<ReturnType<typeof getIslamHouseSections>> | null = null;
+  let books: Awaited<ReturnType<typeof getIslamHouseItems>> | null = null;
+  try {
+    [sections, books] = await Promise.all([
+      getIslamHouseSections("ar", "ar"),
+      getIslamHouseItems("books", "ar", "ar", 1, 12),
+    ]);
+  } catch {
+    sections = null;
+    books = null;
+  }
+
   return (
     <main className="content-page">
       <header className="page-nav"><Link href="/">← بلّغ</Link><span>المكتبة الإسلامية</span></header>
       <section className="page-hero compact-hero">
         <p className="eyebrow">معرفة أوسع من مصدر موثّق</p>
-        <h1>مكتبة إسلامية<br /><em>بلغات العالم.</em></h1>
-        <p>الكتب والمقالات والفتاوى والمواد المرئية ستصل من IslamHouse مع رابطها الأصلي وبيانات ناشرها.</p>
+        <h1>مكتبة إسلامية<br /><em>من IslamHouse.</em></h1>
+        <p>هذه المواد تُجلب مباشرة من المصدر الرسمي، مع إبقاء رابط المصدر وبياناته متاحة عند فتح كل مادة.</p>
       </section>
-      <section className="library-types">
-        {formats.map((format) => <span key={format}>{format}</span>)}
-      </section>
-      <aside className="source-proof">
-        <div>
-          <span className="proof-label">حالة الربط</span>
-          <h2>{status.configured ? "المكتبة جاهزة للمزامنة" : "بانتظار تهيئة مفتاح IslamHouse"}</h2>
-          <p>{status.configured ? "سيتم عرض مواد المصدر مباشرة مع بياناتها الوصفية." : "تم تجهيز الواجهة وطبقة الحالة؛ أضف ISLAMHOUSE_API_KEY في إعدادات النشر لتفعيل فهرسة المكتبة."}</p>
-        </div>
-        <a href={status.documentationUrl} target="_blank" rel="noreferrer">توثيق API ↗</a>
-      </aside>
+
+      {sections && books ? (
+        <>
+          <div className="source-bar">
+            <span>المصدر: <a href={books.source.officialUrl} target="_blank" rel="noreferrer">{books.source.attribution}</a></span>
+            <span>اللغة: العربية</span>
+            <span>مواد الكتب المعروضة: {books.data.length}</span>
+          </div>
+          <section className="library-types">
+            {sections.data.filter((section) => section.block_name !== "showall").map((section) => (
+              <span key={section.block_name}>{section.block_name} · {section.items_count.toLocaleString("ar-SA")}</span>
+            ))}
+          </section>
+          <section className="library-grid" aria-label="كتب من إسلام هاوس">
+            {books.data.map((book, index) => (
+              <article key={String(book.id ?? index)}>
+                <span>IslamHouse</span>
+                <h2>{itemTitle(book) ?? "مادة من المكتبة الإسلامية"}</h2>
+                <p>المادة محفوظة في المصدر الرسمي. ستضاف صفحة التفاصيل وبيانات المؤلف والملفات في المرحلة التالية.</p>
+                <a href={books.source.officialUrl} target="_blank" rel="noreferrer">عرض المصدر الرسمي ↗</a>
+              </article>
+            ))}
+          </section>
+        </>
+      ) : (
+        <aside className="source-proof">
+          <div><span className="proof-label">المصدر مؤقتًا غير متاح</span><h2>تعذر جلب المكتبة الآن.</h2><p>لم نعرض مواد بديلة أو منسوخة. يمكنك الرجوع إلى IslamHouse مباشرة.</p></div>
+          <a href="https://islamhouse.com/" target="_blank" rel="noreferrer">زيارة IslamHouse ↗</a>
+        </aside>
+      )}
     </main>
   );
 }
