@@ -30,7 +30,7 @@ export default function Home() {
         <p className="hero-copy">بلّغ منصة متعددة اللغات تساعد الباحث عن الحقيقة، والمسلم الجديد، والداعية على الوصول إلى محتوى إسلامي موثّق ومناسب لرحلته.</p>
         <div className="hero-actions">
           <a className="button primary" href="#journeys">ابدأ من هنا <b>←</b></a>
-          <a className="button quiet" href="#sources">كيف نوثّق المحتوى؟</a>
+          <a className="button quiet" href="/quran">استكشف القرآن</a>
         </div>
         <div className="trust-line"><span>✓</span> النصوص الأصلية لا تُعدَّل · المصدر والإصدار ظاهران دائمًا</div>
       </section>
@@ -47,7 +47,7 @@ export default function Home() {
               <span className="journey-icon">{journey.icon}</span>
               <h3>{journey.title}</h3>
               <p>{journey.text}</p>
-              <a href="#sources">{journey.action} ←</a>
+              <a href={journey.title === "أتعرّف إلى الإسلام" ? "/new-muslim" : journey.title === "لدي سؤال" ? "/hadith" : journey.title === "أنا مسلم جديد" ? "/new-muslim" : "#dawah"}>{journey.action} ←</a>
             </article>
           ))}
         </div>
