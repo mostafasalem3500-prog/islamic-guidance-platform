@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS sources (id BIGSERIAL PRIMARY KEY, provider TEXT NOT NULL UNIQUE, official_url TEXT NOT NULL, license_url TEXT, synced_at TIMESTAMPTZ NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS library_items (id BIGSERIAL PRIMARY KEY, source_id BIGINT NOT NULL REFERENCES sources(id), external_id TEXT NOT NULL, title TEXT NOT NULL, author TEXT, language TEXT NOT NULL, item_type TEXT NOT NULL, description TEXT, original_url TEXT NOT NULL, UNIQUE(source_id, external_id));
+CREATE TABLE IF NOT EXISTS content_chunks (id BIGSERIAL PRIMARY KEY, item_id BIGINT NOT NULL REFERENCES library_items(id) ON DELETE CASCADE, page_number INTEGER, ordinal INTEGER NOT NULL, text_content TEXT NOT NULL, original_url TEXT NOT NULL, UNIQUE(item_id, ordinal));
+CREATE INDEX IF NOT EXISTS content_chunks_text_idx ON content_chunks USING GIN (to_tsvector('simple', text_content));
+CREATE INDEX IF NOT EXISTS library_items_search_idx ON library_items USING GIN (to_tsvector('simple', coalesce(title, '') || ' ' || coalesce(author, '') || ' ' || coalesce(description, '')));

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createResearchPlan, type ResearchAudience, type ResearchLanguage } from "../../../../src/lib/research-planner";
+import { searchIndexedLibrary } from "../../../../src/lib/library-search";
 
 const audiences = new Set<ResearchAudience>(["seeker", "new-muslim", "muslim", "dai"]);
 const languages = new Set<ResearchLanguage>(["ar", "en", "ru", "uz"]);
@@ -30,6 +31,7 @@ export async function POST(request: NextRequest) {
     }
     const plan = await createResearchPlan({ topic, audience: input.audience as ResearchAudience, language: input.language as ResearchLanguage });
     if (!plan.keywords.length) return NextResponse.json({ error: "لم نتمكن من استخراج كلمات بحث كافية من الموضوع." }, { status: 422 });
+    const libraryResults = await searchIndexedLibrary(plan.keywords.join(" "), input.language as ResearchLanguage).catch(() => []);
     return NextResponse.json({
       plan,
       sources: [
@@ -37,6 +39,7 @@ export async function POST(request: NextRequest) {
         { id: "hadith", label: "الحديث النبوي", provider: "HadeethEnc", href: "/hadith" },
         { id: "library", label: "الكتب والمواد", provider: "IslamHouse", href: "/library" },
       ],
+      libraryResults,
     });
   } catch {
     return NextResponse.json({ error: "تعذر تجهيز خطة البحث. أعد المحاولة." }, { status: 400 });

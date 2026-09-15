@@ -6,6 +6,7 @@ import { FormEvent, useState } from "react";
 type Result = {
   plan: { keywords: string[]; searchOrder: string[]; organizer: "ai" | "rules" };
   sources: Array<{ id: string; label: string; provider: string; href: string }>;
+  libraryResults: Array<{ externalId: string; title: string; author: string | null; itemType: string; description: string | null; originalUrl: string; provider: string }>;
 };
 
 const audiences = [
@@ -57,11 +58,20 @@ export default function ResearchPage() {
     {result ? <section className="research-result" aria-live="polite">
       <div className="research-result-head"><div><p className="eyebrow">خطة البحث</p><h2>ابدأ بهذه الكلمات والمصادر</h2></div><span>{result.plan.organizer === "ai" ? "تنظيم AI" : "تنظيم أساسي"}</span></div>
       <div className="keyword-list">{result.plan.keywords.map((keyword) => <span key={keyword}>{keyword}</span>)}</div>
-      <p className="research-notice">هذه كلمات تنظيم للبحث وليست جوابًا دينيًا أو أدلة. عند اكتمال الفهرسة ستُجلب النتائج المطابقة مباشرة تحت كل مصدر.</p>
+      <p className="research-notice">هذه كلمات تنظيم للبحث وليست جوابًا دينيًا أو أدلة. النتائج أدناه من فهرس المواد الرسمية، ويؤدي كل رابط إلى المصدر الأصلي.</p>
       <div className="research-source-grid">{result.plan.searchOrder.map((id) => {
         const source = result.sources.find((item) => item.id === id); if (!source) return null;
         return <Link href={source.href} className="research-source" key={source.id}><small>{source.provider}</small><strong>{source.label}</strong><span>افتح المصدر الموثق ←</span></Link>;
       })}</div>
+      <section className="indexed-results" aria-label="نتائج المكتبة الرسمية">
+        <div><p className="eyebrow">نتائج مفهرسة</p><h2>مواد من المصدر الرسمي</h2></div>
+        {result.libraryResults.length ? <div className="indexed-result-list">{result.libraryResults.map((item) => <article className="indexed-result" key={item.externalId}>
+          <small>{item.provider} · {item.itemType}</small><h3>{item.title}</h3>
+          {item.author ? <p>إعداد: {item.author}</p> : null}
+          {item.description ? <p>{item.description.slice(0, 240)}{item.description.length > 240 ? "…" : ""}</p> : null}
+          <a href={item.originalUrl} target="_blank" rel="noreferrer">افتح المادة من مصدرها ↗</a>
+        </article>)}</div> : <p className="research-empty">لم تُفهرس بعد مادة مطابقة لهذه العبارة. يمكنك فتح الفهرس الرسمي أو إعادة صياغة الكلمات.</p>}
+      </section>
     </section> : null}
     <aside className="source-proof"><div><span className="proof-label">ضابط المنصة</span><h2>الترتيب آلي، والدليل من مصدره.</h2><p>لن تنسب المنصة للقرآن أو السنة إلا النص الذي أعاده المصدر الرسمي مع رابط الإحالة وبياناته.</p></div></aside>
   </main>;
