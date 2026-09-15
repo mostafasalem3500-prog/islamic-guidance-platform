@@ -7,7 +7,7 @@ if (!process.env.DATABASE_URL) {
 }
 
 const schema = await readFile(new URL("../db/schema.sql", import.meta.url), "utf8");
-const client = new pg.Client({ connectionString: process.env.DATABASE_URL, ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : undefined });
+const client = new pg.Client({ connectionString: process.env.DATABASE_URL });
 
 try {
   await client.connect();

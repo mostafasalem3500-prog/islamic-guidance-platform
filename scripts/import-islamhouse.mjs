@@ -18,7 +18,7 @@ function clean(value) {
   return typeof value === "string" ? value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim() : null;
 }
 
-const client = new pg.Client({ connectionString: process.env.DATABASE_URL, ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : undefined });
+const client = new pg.Client({ connectionString: process.env.DATABASE_URL });
 try {
   await client.connect();
   await client.query("BEGIN");
