@@ -20,7 +20,7 @@ export async function searchIndexedLibrary(query: string, language: string, limi
   if (phrase.length < 2) return [];
   const tokens = phrase.split(" ").filter((word) => word.length > 1).slice(0, 8);
   if (!tokens.length) return [];
-  const search = tokens.join(" & ");
+  const search = tokens.join(" | ");
   const { rows } = await database().query<{
     external_id: string; title: string; author: string | null; language: string; item_type: string; description: string | null; original_url: string; provider: string;
   }>(
