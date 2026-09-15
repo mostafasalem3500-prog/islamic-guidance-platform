@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "db:migrate": "node scripts/migrate.mjs",
     "db:import:islamhouse": "node scripts/import-islamhouse.mjs",
-    "db:prepare-initial-index": "node scripts/prepare-initial-index.mjs"
+    "db:prepare-initial-index": "node scripts/prepare-initial-index.mjs",
+    "db:prepare-multilingual-index": "node scripts/prepare-multilingual-index.mjs"
   },
   "dependencies": {
     "next": "^16.3.5",
